@@ -1,5 +1,11 @@
-$color: steelblue;
+//Primary Blue
+$blue: #27abe8;
 
 .my-flix {
-  color: $color;
+  color: $blue;
 }
+
+body {
+  background-color: #131313 !important;
+}
+

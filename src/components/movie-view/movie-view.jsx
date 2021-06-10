@@ -1,27 +1,41 @@
 import React from "react";
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
+import Card from "react-bootstrap/Card";
+//import moviePoster from 'url:../../../public/images/matrix.png';
+import Figure from 'react-bootstrap/Figure';
+import FigureImage from 'react-bootstrap/FigureImage'
+
+
 
 export class MovieView extends React.Component {
+
   render() {
     const { movie, onBackClick } = this.props;
     return (
-      <div className="movie-view">
-        <div className="movie-poster">
-          <img src={movie.imageUrl} />
-        </div>
-        <div className="movie-title">
-          <span className="value">{movie.Title}</span>
-        </div>
-        <div className="movie-description">
-          <span className="value">{movie.description}</span>
-        </div>
-        <button
+      <>
+      <Row>
+      <Figure>
+        <Figure.Image 
+          width={268}
+          height={370}
+          src={movie.imageUrl}
+          />
+        </Figure>
+        </Row>
+        <Row  className="text-white">
+        <h1>{movie.Title}</h1>
+        <p>{movie.description}</p>
+        <Button variant="primary"
           onClick={() => {
             onBackClick(null);
           }}
         >
           Back to list
-        </button>
-      </div>
+        </Button>
+      </Row>
+      </>
     );
   }
 }

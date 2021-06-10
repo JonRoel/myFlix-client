@@ -1,0 +1,20 @@
+.login-form {
+   min-width:500px;
+   padding:25px;
+   border:1px solid #c5c5c5;
+   border-radius: 15px;
+   text-align:left;
+   background-color:#fff;
+
+}
+.login-logo {
+   padding-bottom:25px;
+}
+.login-wrapper {
+   max-width:650px;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   text-align:center;
+}

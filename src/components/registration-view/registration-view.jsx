@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export function RegistrationView(props) {
   const [username, setUsername] = useState("");
@@ -12,43 +14,50 @@ export function RegistrationView(props) {
   };
 
   return (
-    <form>
-      <label>
-        Username:
-        <input
+    <Form>
+      <Form.Group>
+        <Form.Label>
+          Username:
+        </Form.Label>
+        <Form.Control
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-      </label>
-      <label>
-        Create Password:
-        <input
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>
+          Create Password:
+        </Form.Label>
+        <Form.Control
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <label>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>
           Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <label>
+        </Form.Label>
+        <Form.Control
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>
           Birthday:
-          <input
+        </Form.Label>
+        <Form.Control
             type="date"
             value={birthday}
+            placeholder="YYYY-MM-DD"
             onChange={(e) => setBirthday(e.target.value)}
           />
-        </label>
-      </label>
-      <button type="submit" onClick={handleSubmit}>
-        <button onClick={() => { onBackClick(null); }}>Back</button>
-        Submit
-      </button>
-    </form>
+      </Form.Group>
+      <Button variant="primary" type="submit" onClick={handleSubmit}>Submit</Button>
+      <Button variant="secondary" onClick={() => { onBackClick(null); }}>Back to login</Button>
+    </Form>
   );
 }
