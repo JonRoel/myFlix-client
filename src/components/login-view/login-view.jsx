@@ -1,27 +1,36 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import './login-view.scss';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import logo from 'url:../../assets/myflix-logo.png';
+import logo from 'url:../../../public/myflix-logo.png';
+import axios from 'axios';
 
 
 export function LoginView(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
-    props.onLoggedIn(username);
+    axios.post('https://myflix-jonathon.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    })
+    .then(response => {
+      const data = response.data;
+      props.onLoggedIn(data);
+    })
+    .catch(e => {
+      console.log('no such user exists')
+    });
   };
 
   return (
     <div className="login-wrapper">
-    <img className="login-logo" width={400} src={logo} alt="logo" />
+    <img className="myFlix-logo" width={400} src={logo} alt="logo" />
     <Form className="login-form">
-      <Form.Group conroleid="formUsername">
+      <Form.Group controleid="formUsername">
         <Form.Label>Username:</Form.Label>
         <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
       </Form.Group>
@@ -29,9 +38,12 @@ export function LoginView(props) {
         <Form.Label>Password:</Form.Label>
         <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
       </Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>Log In</Button>
+      <div className="d-grid gap-2">
+      <Button variant="primary" type="submit" size="lg" onClick={handleSubmit}>Sign In</Button>
+      <hr data-content="Or" className="hr-text" />
+      <Button href="/register" variant="secondary" size="lg">Register here</Button>
+      </div>
     </Form>
-
     </div>
   );
 }
@@ -41,5 +53,4 @@ LoginView.propTypes = {
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired
   }),
-  //onLoggedIn: PropTypes.string.isRequired
 };

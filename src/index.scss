@@ -8,4 +8,10 @@ $blue: #27abe8;
 body {
   background-color: #131313 !important;
 }
+.top-wrapper {
+  display: flow-root;
+}
 
+.logout-button {
+  float:right;
+}

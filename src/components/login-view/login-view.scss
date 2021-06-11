@@ -1,4 +1,4 @@
-.login-form {
+.login-form, .register-form {
    min-width:500px;
    padding:25px;
    border:1px solid #c5c5c5;
@@ -7,10 +7,10 @@
    background-color:#fff;
 
 }
-.login-logo {
+.myFlix-logo {
    padding-bottom:25px;
 }
-.login-wrapper {
+.login-wrapper, .register-wrapper {
    max-width:650px;
    position: fixed;
    top: 50%;
@@ -18,3 +18,30 @@
    transform: translate(-50%, -50%);
    text-align:center;
 }
+
+.btn-lg {
+   width:100%;
+}
+
+hr.hr-text {
+   position: relative;
+     border: none;
+     height: 1px;
+     background: #b3b3b3;
+     margin-top:35px;
+     margin-bottom:35px;
+ }
+ 
+ hr.hr-text::before {
+     content: attr(data-content);
+     display: inline-block;
+     background: #fff;
+     font-weight: bold;
+     font-size: 0.85rem;
+     color: #b3b3b3;
+     border-radius: 30rem;
+     padding: 15px 15px;
+     position: absolute;
+     left:50%;
+     transform: translate(-50%, -50%);
+ }
