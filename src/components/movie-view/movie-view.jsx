@@ -19,10 +19,10 @@ export class MovieView extends React.Component {
           </div>
         </Row>
         <Row>
-          <span className="meta-text">Genre: <Link to={`/genres/${movie.genre}`}>{movie.genre}</Link></span>
+          <span className="meta-text">Genre: <Link to={`/genres/${movie.genre.name}`}>{movie.genre.name}</Link></span>
         </Row>
         <Row>
-        <span className="meta-text">Genre: <Link to={`/genres/${movie.genre}`}>{movie.director.name}</Link></span>
+          <span className="meta-text">Directed by: <Link to={`/directors/${movie.director.name}`}>{movie.director.name}</Link></span>
         </Row>
         <Row  className="text-white">
          <h1>{movie.Title}</h1>
@@ -41,7 +41,8 @@ MovieView.propTypes = {
     Title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     imageUrl: PropTypes.string.isRequired,
-    genre: PropTypes.string,
+    genre: PropTypes.shape({
+      name: PropTypes.string,}),
     director: PropTypes.shape({
       name: PropTypes.string
     })
