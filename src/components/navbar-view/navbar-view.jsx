@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import logo from 'url:../../../public/myflix-logo.png';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 
 import './navbar-view.scss';
 
@@ -32,9 +33,9 @@ render () {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="menu-items">
-        <Nav.Link href="">Hi </Nav.Link>
+        <Nav.Link href="">Hi {`${this.props.user}`} </Nav.Link>
         <NavDropdown title='' id="collasible-nav-dropdown">
-            <NavDropdown.Item href="/users/">Account Details</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to={`/users/${this.props.user}`}>Account Details</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item></NavDropdown.Item>
             <Button variant="link" onClick={() => { this.onLoggedOut() }}>Logout</Button>
