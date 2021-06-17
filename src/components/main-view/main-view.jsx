@@ -135,9 +135,9 @@ class MainView extends React.Component {
               <>
                 <Row className="mb-3 navigation-main"><NavBar user={user} /></Row>
                 <Row>
-                {movies.map(m => (
-                  <Col xs={12} sm={6} md={3} key={m._id}>
-                    <MovieCard movie={m} movie={movies.find(m => m.genre.name === require.params.name)} />
+                {movies.map(mg => (
+                  <Col xs={12} sm={6} md={3} key={mg._id}>
+                    <MovieCard movie={mg} movie={movies.find(mg => mg.genre.name === require.params.name)} />
                   </Col>
                 ))}
                 </Row>
@@ -218,9 +218,7 @@ class MainView extends React.Component {
                   </Row>
                 <Row>
                   <Col className="p-0">
-                    <ProfileView  
-                      token={localStorage.getItem('user')} 
-                      onBackClick={() => history.goBack()} 
+                    <ProfileView user={users.find(user => user.Username === match.params.Username).user} onBackClick={() => history.goBack()} 
                     />
                   </Col>
                 </Row>
