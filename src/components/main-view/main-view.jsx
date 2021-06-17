@@ -69,11 +69,12 @@ class MainView extends React.Component {
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user.Username
+      user: authData.user.Username,
+      token: authData.token
     });
-
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
+    this.getAcc(authData.token, authData.user.Username);
     this.getMovies(authData.token);
   }
 
@@ -87,32 +88,40 @@ class MainView extends React.Component {
  
 
   render() {
-    const { movies, user } = this.state;
+    const { movies, user, users, token } = this.state;
   
     return (
       <>
       <Router>
-        <Row className="mb-3"><Col><NavBar /></Col></Row>
+          {/* Start of Main View*/}
           <Row className="main-view justify-md-content-center">
+
             <Route exact path="/" render={() => {
               if (!user) return (
-              <Row>
                 <Col>
                   <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
                 </Col>
-              </Row>);
+              );
+              
 
               if (movies.length === 0) return (<div className="main-view" />);
-                  
-                  return (
-                  
-                  movies.map(m => (
-                    <Col md={3} key={m._id}>
-                      <MovieCard movie={m} />
-                    </Col>
-              )))
-            }} />
+              
 
+              if (user) return (
+              <>
+                <Row className="mb-3 navigation-main"><NavBar user={user} /></Row>
+                <Row>
+                {movies.map(m => (
+                  <Col xs={12} sm={6} md={3} key={m._id}>
+                    <MovieCard movie={m} />
+                  </Col>
+                ))}
+                </Row>
+              </>
+            )
+          }} />
+
+            {/* Start of register View */}
             <Route path="/register" render={() => {
               if (user) return <Redirect to='/' />
               return <Row>
@@ -121,7 +130,8 @@ class MainView extends React.Component {
                 </Col>
               </Row>
             }} />
-    
+
+            {/* Start of Single Movie View */}
             <Route path="/movies/:Title" render={({ match, history }) => {
               if (!user) return <Row>
                   <Col>

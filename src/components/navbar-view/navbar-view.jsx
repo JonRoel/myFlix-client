@@ -7,7 +7,7 @@ import logo from 'url:../../../public/myflix-logo.png';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 
- 
+import './navbar-view.scss';
 
 export class NavBar extends React.Component {
 
@@ -17,20 +17,22 @@ export class NavBar extends React.Component {
   localStorage.removeItem('user');
   window.location.href = '/';
   this.setState({
-    user: null
+    user: null,
+    token: null,
+    users: null
   });
 }
 
 render () {
   return (
 
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar className="navigation-main" collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
       <Navbar.Brand href="#home"><img className="myFlix-logo-nav" width={100} src={logo} alt="myFlix Logo" /></Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-      <Nav>
-        <Nav.Link className="me-auto" href="">Hi Username</Nav.Link>
+      <Nav className="menu-items">
+        <Nav.Link href="">Hi {user.Username}</Nav.Link>
         <NavDropdown title='' id="collasible-nav-dropdown">
             <NavDropdown.Item href="/users/">Account Details</NavDropdown.Item>
             <NavDropdown.Divider />
