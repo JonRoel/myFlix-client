@@ -2,7 +2,6 @@ import React from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { useParams } from 'react-router';
 import logo from 'url:../../../public/myflix-logo.png';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -19,11 +18,12 @@ export class NavBar extends React.Component {
   this.setState({
     user: null,
     token: null,
-    users: null
   });
 }
 
 render () {
+  const { users } = this.props;
+
   return (
 
     <Navbar className="navigation-main" collapseOnSelect expand="lg" bg="dark" variant="dark">
@@ -32,7 +32,7 @@ render () {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
       <Nav className="menu-items">
-        <Nav.Link href="">Hi {user.Username}</Nav.Link>
+        <Nav.Link href="">Hi </Nav.Link>
         <NavDropdown title='' id="collasible-nav-dropdown">
             <NavDropdown.Item href="/users/">Account Details</NavDropdown.Item>
             <NavDropdown.Divider />

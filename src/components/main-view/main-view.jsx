@@ -1,9 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
@@ -12,6 +10,9 @@ import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { NavBar } from '../navbar-view/navbar-view';
 import { ProfileView } from '../profile-view/profile-view';
+
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 class MainView extends React.Component {
   constructor() {
@@ -25,11 +26,11 @@ class MainView extends React.Component {
 
   // src/components/main-view/main-view.jsx
   componentDidMount() {
-    this._isMounted = true;
     let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
-     this.setState({
-       user: localStorage.getItem('user')
+      this.setState({
+        user: localStorage.getItem('user'),
+        token: localStorage.getItem('token')
       });
       this.getMovies(accessToken);
     }
@@ -51,7 +52,7 @@ class MainView extends React.Component {
   }
 
   getAcc(token, user) {
-    axios.get(`https://filmquarry.herokuapp.com/users/${user.username}`, {
+    axios.get(`https://filmquarry.herokuapp.com/users/${user}`, {
       headers: { Authorization: `Bearer ${token}`}
     })
     .then(response => {
@@ -69,13 +70,11 @@ class MainView extends React.Component {
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user.Username,
+      users: authData.user.Username,
       token: authData.token
     });
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-    this.getAcc(authData.token, authData.user.Username);
-    this.getMovies(authData.token);
   }
 
   /* When a movie is clicked, this function is involed and updates the state of the selectedMovie property to that movie*/
@@ -85,7 +84,6 @@ class MainView extends React.Component {
     });
   }
 
- 
 
   render() {
     const { movies, user, users, token } = this.state;
@@ -114,6 +112,32 @@ class MainView extends React.Component {
                 {movies.map(m => (
                   <Col xs={12} sm={6} md={3} key={m._id}>
                     <MovieCard movie={m} />
+                  </Col>
+                ))}
+                </Row>
+              </>
+            )
+          }} />
+
+          {/* Show Movies by genre */}
+          <Route exact path="/movielist/genre/:genre" render={() => {
+              if (!user) return (
+                <Col>
+                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+              );
+              
+
+              if (movies.length === 0) return (<div className="main-view" />);
+              
+
+              if (user) return (
+              <>
+                <Row className="mb-3 navigation-main"><NavBar user={user} /></Row>
+                <Row>
+                {movies.map(m => (
+                  <Col xs={12} sm={6} md={3} key={m._id}>
+                    <MovieCard movie={m} movie={movies.find(m => m.genre.name === require.params.name)} />
                   </Col>
                 ))}
                 </Row>
@@ -182,19 +206,28 @@ class MainView extends React.Component {
           } />
 
           {/* Profile View */}
-          <Route path="/users/:Username" render={({ match }) => {
-              if (!user) return <Col>
-                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                  </Col>
-                return (
-                  <>
-                    <Col md={8}>
-                      <ProfileView user={users.find(m => m.user.Username === match.params.Username).user} onBackClick={() => history.goBack()} />
+          <Route path="/profile/:Username" render={({ match }) => {
+            if(!user) return <Redirect to="/" />
+
+            return (
+              <Container fluid className="d-flex flex-column">
+                <Row>
+                    <Col className="p-0">
+                      <NavBar />
                     </Col>
-                  </>
-                )
-            }
-      } />
+                  </Row>
+                <Row>
+                  <Col className="p-0">
+                    <ProfileView  
+                      token={localStorage.getItem('user')} 
+                      onBackClick={() => history.goBack()} 
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            )
+          }
+        } />
 
     
           </Row>
