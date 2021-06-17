@@ -207,10 +207,10 @@ class MainView extends React.Component {
 
           {/* Profile View */}
           <Route path="/profile/:Username" render={({ match }) => {
-            if(!user) return <Redirect to="/" />
+            {/* if(!user) return <Redirect to="/" /> */}
 
             return (
-              <Container fluid className="d-flex flex-column">
+              <>
                 <Row>
                     <Col className="p-0">
                       <NavBar />
@@ -218,11 +218,11 @@ class MainView extends React.Component {
                   </Row>
                 <Row>
                   <Col className="p-0">
-                    <ProfileView user={users.find(user => user.Username === match.params.Username).user} onBackClick={() => history.goBack()} 
+                    <ProfileView user={users.find(users => users.Username === match.params.Username).user} onBackClick={() => history.goBack()} 
                     />
                   </Col>
                 </Row>
-              </Container>
+              </>
             )
           }
         } />
