@@ -52,7 +52,7 @@ class MainView extends React.Component {
   }
 
   getAcc(token) {
-    axios.get(`https://filmquarry.herokuapp.com/users`, {
+    axios.get(`https://filmquarry.herokuapp.com/users/:Username`, {
       headers: { Authorization: `Bearer ${token}`}
     })
     .then(response => {
@@ -222,7 +222,7 @@ class MainView extends React.Component {
                   </Row>
                 <Row>
                   <Col>
-                    <ProfileView profile={users.find(p => p.Username === match.params.Username)} onBackClick={() => history.goBack()} />
+                    <ProfileView user={users.find(p => p.Username === match.params.Username)} onBackClick={() => history.goBack()} />
                   </Col>
                 </Row>
               </>
