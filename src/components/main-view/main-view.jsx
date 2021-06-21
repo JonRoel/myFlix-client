@@ -10,6 +10,7 @@ import { DirectorView } from '../director-view/director-view';
 import { GenreView } from '../genre-view/genre-view';
 import { NavBar } from '../navbar-view/navbar-view';
 import { ProfileView } from '../profile-view/profile-view';
+import { UpdateView } from '../update-view/update-view.jsx';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -121,37 +122,13 @@ class MainView extends React.Component {
             }} />
 
             {/* Show Movies by genre */}
-            <Route exact path="/movies/genre/:genre" render={() => {
-                if (!user) return (
-                  <Col>
-                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                  </Col>
-                );
-                
-
-                if (movies.length === 0) return (<div className="main-view" />);
-                
-
-                if (user) return (
-                <>
-                  <Row className="mb-3 navigation-main"><NavBar user={user} /></Row>
-                  <Row>
-                  {movies.map(mg => (
-                    <Col xs={12} sm={6} md={3} key={mg._id}>
-                      <MovieCard movie={movies.find(mg => mg.genre === require.params.genre.name)}/>
-                    </Col>
-                  ))}
-                  </Row>
-                </>
-              )
-            }} />
 
               {/* Start of register View */}
               <Route path="/register" render={() => {
                 if (user) return <Redirect to='/' />
                 return <Row>
                   <Col>
-                    <RegistrationView />
+                    <RegistrationView user={user} />
                   </Col>
                 </Row>
               }} />
@@ -182,7 +159,7 @@ class MainView extends React.Component {
                   </Row>
                 if (movies.length === 0) return <div className="main-view" />;
                 return <Col md={8}>
-                  <GenreView genre={movies.find(m => m.genre.name === match .params.name).genre} onBackClick={() => history.goBack()} />
+                  <GenreView genre={movies.find(m => m.genre.name === match .params.name).genre} onBackClick={() => history.goBack()} movies={movies} />
                 </Col>
               }} />
             
@@ -199,7 +176,7 @@ class MainView extends React.Component {
                   return (
                     <>
                       <Col md={8}>
-                        <DirectorView director={movies.find(m => m.director.name === match.params.name).director} onBackClick={() => history.goBack()} />
+                        <DirectorView director={movies.find(m => m.director.name === match.params.name).director} onBackClick={() => history.goBack()} movies={movies} />
                       </Col>
                     </>
                   )
@@ -216,20 +193,45 @@ class MainView extends React.Component {
               
               return (
                 <>
-                  <Row>
+                  <Row className="mb-3 navigation-main">
                     <Col>
-                      <NavBar />
+                      <NavBar user={user} />
                     </Col>
                   </Row>
                   <Row>
                     <Col>
-                      <ProfileView movies={movies} user={user} onBackClick={() => history.goBack()} />
+                      <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
                     </Col>
                   </Row>
                 </>
               )
             }
-          } />
+            } />
+
+            {/* Profile update view */}
+            <Route path="/userupdate/:Username" render={({ history }) => {
+              {/* if(!user) return <Redirect to="/" /> */}
+              if (movies.length === 0) return <div className="main-view" />
+              if (!user) return <Col>
+                      <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                    </Col>
+              
+              return (
+                <>
+                  <Row className="mb-3 navigation-main">
+                    <Col>
+                      <NavBar user={user} />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <UpdateView user={user} movies={movies} onBackClick={() => history.goBack()} />
+                    </Col>
+                  </Row>
+                </>
+              )
+            }
+            } />
 
             </Row>
         </Router>

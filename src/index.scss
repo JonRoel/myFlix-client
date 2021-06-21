@@ -19,3 +19,13 @@ body {
 .display-none {
   display:none;
 }
+
+.navigation-main {
+  display:block;
+  width:100%;
+  margin-left:0px;
+}
+
+.navbar-expand-lg .navbar-collapse {
+  flex:inherit;
+}

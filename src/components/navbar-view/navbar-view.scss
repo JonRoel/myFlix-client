@@ -11,3 +11,7 @@
 .navbar-expand-lg .navbar-collapse {
   flex:inherit;
 }
+.dropdown-menu {
+  right:0px !important;
+  left:unset;
+}
