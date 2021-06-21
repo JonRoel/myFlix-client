@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Row, Col, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import "./genre-view.scss"
 
@@ -9,7 +10,7 @@ export class GenreView extends React.Component {
     const { genre, onBackClick, movies } = this.props;
     const genreMovies = movies.filter(m => m.genre.name === genre.name);
     return (
-      <Container className="genre-wrapper">
+      <Container className="genre-wrapper m-4">
         <Row  className="text-white">
          <h2>Genre: {genre.name}</h2>
          </Row><Row className="text-white">
@@ -22,7 +23,7 @@ export class GenreView extends React.Component {
            <h2>Related Movies</h2>
          </Row>
          <Row className="text-white">
-           {genreMovies.map((m, i) => <div className="genre-movies" key={i}>{m.Title}</div>)}
+           {genreMovies.map((m, i) => <Link to={`/movies/${m.Title}`} className="genre-movies" key={i}>{m.Title}</Link>)}
          </Row>
       </Container>
     );

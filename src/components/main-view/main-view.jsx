@@ -16,28 +16,28 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 class MainView extends React.Component {
+  
   constructor() {
     super();
     this.state = {
       movies: [],
-      selectedMovie: null,
       user: null,
+      selectedMovie: null,
     };
   }
 
   // src/components/main-view/main-view.jsx
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
-    
     if (accessToken !== null) {
         this.setState({
             user: localStorage.getItem('user')
         });
         this.getMovies(accessToken);
+        this.getAcc(accessToken);
     }
 }
 
-  // src/components/main-view/mainview.jsx
   getMovies(token) {
     axios.get('https://myflix-jonathon.herokuapp.com/movies', {
       headers: {Authorization: `Bearer ${token}`}
@@ -53,7 +53,7 @@ class MainView extends React.Component {
   }
 
   getAcc(token) {
-    axios.get(`https://filmquarry.herokuapp.com/users`, {
+    axios.get(`https://myflix-jonathon.herokuapp.com/users`, {
       headers: { Authorization: `Bearer ${token}`}
     })
     .then(response => {
@@ -80,11 +80,11 @@ class MainView extends React.Component {
 }
 
   /* When a movie is clicked, this function is involed and updates the state of the selectedMovie property to that movie*/
-  setSelectedMovie(movie) {
-    this.setState({
-      selectedMovie: movie,
-    });
-  }
+  // setSelectedMovie(movie) {
+  //   this.setState({
+  //     selectedMovie: movie,
+  //   });
+  // }
 
 
   render() {
@@ -140,9 +140,18 @@ class MainView extends React.Component {
                       <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
                     </Col>
                   </Row>
-                return <Col md={8}>
-                  <MovieView movie={movies.find(m => m.Title === match.params.Title)} onBackClick={() => history.goBack()} />
-                </Col>
+                return <>
+                  <Row className="mb-3 navigation-main">
+                    <Col>
+                      <NavBar user={user} />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md={8}>
+                      <MovieView movie={movies.find(m => m.Title === match.params.Title)} onBackClick={() => history.goBack()} />
+                    </Col>
+                  </Row>
+                </>
               }} />
 
             {/* 
@@ -158,9 +167,18 @@ class MainView extends React.Component {
                     </Col>
                   </Row>
                 if (movies.length === 0) return <div className="main-view" />;
-                return <Col md={8}>
-                  <GenreView genre={movies.find(m => m.genre.name === match .params.name).genre} onBackClick={() => history.goBack()} movies={movies} />
-                </Col>
+                return <>
+                    <Row className="mb-3 navigation-main">
+                      <Col>
+                        <NavBar user={user} />
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md={8}>
+                        <GenreView genre={movies.find(m => m.genre.name === match .params.name).genre} onBackClick={() => history.goBack()} movies={movies} />
+                      </Col>
+                    </Row>
+                </>
               }} />
             
             {/* 
@@ -175,9 +193,16 @@ class MainView extends React.Component {
                 if (movies.length === 0) return <div className="main-view" />;
                   return (
                     <>
-                      <Col md={8}>
-                        <DirectorView director={movies.find(m => m.director.name === match.params.name).director} onBackClick={() => history.goBack()} movies={movies} />
-                      </Col>
+                      <Row className="mb-3 navigation-main">
+                        <Col>
+                          <NavBar user={user} />
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={8}>
+                          <DirectorView director={movies.find(m => m.director.name === match.params.name).director} onBackClick={() => history.goBack()} movies={movies} />
+                        </Col>
+                      </Row>
                     </>
                   )
               }

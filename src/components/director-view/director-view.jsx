@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Button, Row, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+import './director-view.scss';
+
 export class DirectorView extends React.Component {
   
   render() {
@@ -11,7 +13,7 @@ export class DirectorView extends React.Component {
     const directorsMovies = movies.filter(m => m.director.name === director.name);
     
     return (
-      <Container className="director-container">
+      <Container className="director-container m-4">
         <Row  className="text-white">
          <h1>{director.name}</h1>
          </Row>
@@ -26,13 +28,12 @@ export class DirectorView extends React.Component {
            <h2>Related Movies</h2>
          </Row>
          <Row className="text-white">
-           {directorsMovies.map((m, i) => <div className="directors-movies" key={i}>{m.Title}</div>)}
+           {directorsMovies.map((m, i) => <Link to={`/movies/${m.Title}`} className="directors-movies" key={i}>{m.Title}</Link>)}
          </Row>
       </Container>
     );
   }
 }
-
 
 DirectorView.propTypes = {
   director: PropTypes.shape({

@@ -11,11 +11,15 @@ export class UpdateView extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: null,
-      password: null,
-      email: null,
+      Username: "",
+      Password: "",
+      Email: "",
+      PasswordError: "",
+      EmailError: "",
+      BirthdayError: "",
     }
   }
+
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
     this.getUser(accessToken);
@@ -23,8 +27,7 @@ export class UpdateView extends React.Component {
   getUser(token) {
     let url = 'https://myflix-jonathon.herokuapp.com/users/' +
         localStorage.getItem('user');
-    axios
-        .get(url, {
+    axios.get(url, {
             headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
@@ -32,16 +35,17 @@ export class UpdateView extends React.Component {
                 Username: response.data.Username,
                 Password: response.data.Password,
                 Email: response.data.Email,
-                BirthDate: response.data.Birthday,
+                Birthday: response.data.Birthday,
                 Favorties: response.data.Favorites
             });
         });
   }
-
+/* Handle form update */
   handleUpdate(e) {
     let token = localStorage.getItem("token");
     let user = localStorage.getItem("user");
-    console.log.apply(Username, Password, Email, Birthday)
+    let validated = this.formValidation();
+    if (validated) {
       axios.put( `https://myflix-jonathon.herokuapp.com/userupdate/${user}`,
           { 
               //Username: this.state.Username,
@@ -53,18 +57,54 @@ export class UpdateView extends React.Component {
         )
           .then((response) => {
               const data = response.data;
-              localStorage.setItem("user", data.Username);
+              //localStorage.setItem("user", data.Username);
               console.log(data);
               alert(user + " has been updated.");
               console.log(response);
+              window.open('{`/users/${this.props.user}`}', '_self'); // <- Not working - not sure why
           })
           .catch(function (error) {
               alert(error.response.data);
           });
-    
-}
+        }}
+
+/* Form Validation Start */
+      formValidation() {
+        let EmailError = {};
+        let PasswordError = {};
+        let BirthdayError = {};
+        let isValid = true;
+        if (this.state.Password.length < 6) {
+          PasswordError.passwordMissing = "You must enter a password at least 6 characters long.";
+          isValid = false;
+        }
+        if (!(this.state.Email && this.state.Email.includes(".") && this.state.Email.includes("@"))) {
+          EmailError.emailNotEmail = "Your email doesn't look quite right.";
+          isValid = false;
+        }
+        if (this.state.Birthday === '') {
+          BirthdayError.BirthdayEmpty = "Please enter your date of birth.";
+          isValid = false;
+        }
+        this.setState({
+          PasswordError: PasswordError,
+          EmailError: EmailError,
+          BirthdayError: BirthdayError,
+        })
+        return isValid;
+      };
+
+      setField(e) {
+        let { name, value } = e.target;
+        this.setState({
+          [name]: value
+        })
+      }
+
 
   render() {
+    const { user } = this.props;
+    const { PasswordError, EmailError, BirthdayError } = this.state;
     return (
       <Container className="profile-wrapper text-light">
         <Row className="ml-1">
@@ -72,17 +112,38 @@ export class UpdateView extends React.Component {
           <p className="note">Username cannot be updated</p>
         </Row>
         <Form>
-        <Form.Group>
-          <Form.Group>
+          <Form.Group controlId="updateEmail">
             <Form.Label>Email</Form.Label>
-            <Form.Control type="email" name="Email" placeholder={`${this.state.Email}`}></Form.Control>
+            <Form.Control type="email" name="Email" placeholder={`${this.state.Email}`} onChange={(e) => this.setField(e)}></Form.Control>
+            {Object.keys(EmailError).map((key) => {
+                    return (
+                      <div className="form-validation-error" key={key}>
+                        {EmailError[key]}
+                      </div>
+                    );
+                  })}
           </Form.Group>
-          <Form.Group>
+          <Form.Group controlId="updateBirthday">
             <Form.Label>Birthday</Form.Label>
-            <Form.Control type="date" name="Birthday" placeholder={`${this.state.Birthday}`}></Form.Control>
+            <Form.Control type="date" name="Birthday" placeholder={`${this.state.Birthday}`} onChange={(e) => this.setField(e)}></Form.Control>
+            {Object.keys(BirthdayError).map((key) => {
+                    return (
+                      <div className="form-validation-error" key={key}>
+                        {BirthdayError[key]}
+                      </div>
+                    );
+                  })}
           </Form.Group>
+          <Form.Group controlId="updatePassword">
           <Form.Label>Password</Form.Label>
-            <Form.Control type="password" name="Password" placeholder="New password"></Form.Control>
+            <Form.Control type="password" name="Password" placeholder="New password" onChange={(e) => this.setField(e)}></Form.Control>
+            {Object.keys(PasswordError).map((key) => {
+                    return (
+                      <div className="form-validation-error" key={key}>
+                        {PasswordError[key]}
+                      </div>
+                    );
+                  })}
           </Form.Group>
         </Form>
          <Row>
@@ -100,8 +161,9 @@ export class UpdateView extends React.Component {
 
 UpdateView.propTypes = {
   users: PropTypes.shape({
-    Username: PropTypes.string.isRequired,
+    Username: PropTypes.string,
     Email: PropTypes.string.isRequired,
+    Password: PropTypes.string.isRequired,
     Birthday: PropTypes.string,
   })
 };

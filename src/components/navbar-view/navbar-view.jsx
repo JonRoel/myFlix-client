@@ -35,6 +35,7 @@ render () {
       <Nav className="menu-items">
         <Nav.Link href="">Hi {`${this.props.user}`} </Nav.Link>
         <NavDropdown title='' id="collasible-nav-dropdown">
+            <NavDropdown.Item as={Link} to="/">Movies</NavDropdown.Item>
             <NavDropdown.Item as={Link} to={`/users/${this.props.user}`}>Account Details</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item></NavDropdown.Item>
