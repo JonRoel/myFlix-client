@@ -26,7 +26,7 @@ export class MovieView extends React.Component {
   handleRemove() {
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
-    axios.delete(`https://myflix-jonathon.herokuapp.com/users/removefromfavs/${user}/` +
+    axios.post(`https://myflix-jonathon.herokuapp.com/users/removefromfavs/${user}/` +
       this.props.movie._id, {},
       { headers: { Authorization: `Bearer ${token}` } }
     )

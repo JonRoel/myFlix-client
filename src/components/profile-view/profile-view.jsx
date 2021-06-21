@@ -34,65 +34,64 @@ export class ProfileView extends React.Component {
                 Password: response.data.Password,
                 Email: response.data.Email,
                 Birthday: response.data.Birthday,
+                Favorites: response.data.Favorites,
             });
         });
   }
-
-  removeFavorite(movie) {
+  /* Remove From Favorites */
+  handleRemove(movie) {
     const token = localStorage.getItem("token");
-    const url =
-      "https://myflix-jonathon.herokuapp.com/users" +
-      localStorage.getItem("user") +
-      "/movies/" +
-      movie._id;
-    axios.delete(url, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+    const user = localStorage.getItem("user");
+    axios.post(`https://myflix-jonathon.herokuapp.com/users/removefromfavs/${user}/` +
+      movie._id, {},
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
       .then((response) => {
         console.log(response);
-        this.componentDidMount();
-        alert(movie.Title + " has been removed from your Favorites.");
-      });
+        alert(movie.Title + " has been removed from your favorites!");
+        window.location.reload(false);
+      })
   }
 
   handleDelete() {
 
     const answer = window.confirm("This cannot be undone, are you sure?");
     if (answer) {
-    const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-    axios
-        .delete( `https://myflix-jonathon.herokuapp.com/users/${user}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then(() => {
-            alert(user + " has been deleted.");
-            localStorage.removeItem("user");
-            localStorage.removeItem("token");
-            window.location.pathname = "/";
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-        } else {
-          // Do Nothing
-          console.log("That was a close one");
-        }}
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+        axios.delete( `https://myflix-jonathon.herokuapp.com/users/${user}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+            )
+            .then(() => {
+                alert(user + " has been deleted.");
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+                window.location.pathname = "/";
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+            } else {
+              // Do Nothing
+              console.log("That was a close one");
+        }
+      }
 
   render() {
-    const { movies, user, onBackClick } = this.props;
-    // const favoritesList = movies.filter((movie) => { 
-    //   return this.state.Favorites.includes(movie._id);
-    // });
-    const favoritesList = movies.filter(m => this.state.Favorites);
+    const { movies, user } = this.props;
+
+    const favoritesList = movies.filter(m => {
+      return this.state.Favorites.includes(m._id);
+    });
+    
     return (
-      <Container className="profile-wrapper">
+      <Container className="profile-wrapper m-4">
         <Row  className="text-white">
           <Col>
             <h2>Username: {`${this.props.user}`}</h2>
             <p>Email: {`${this.state.Email}`}</p>
             <p>Birthday: {`${this.state.Birthday}`}</p>
-            <p>Favorites List:</p>
+            <h5 className="mt-5">Your Favorites</h5>
           </Col>
          </Row>
          <Row>
@@ -100,13 +99,14 @@ export class ProfileView extends React.Component {
               return (
                 <Col md={4} key={movie._id}>
                   <div key={movie._id}>
-                    <Card className='mb-4'>
+                    <Card className='mb-4 h-100 text-white bg-transparent'>
                       <Card.Img variant="top" src={movie.ImageUrl} />
                       <Card.Body>
                         <Link to={`/movies/${movie.Title}`}>
+                          <Card.Img variant="top" src={movie.imageUrl} />
                           <Card.Title as='h3'>{movie.Title}</Card.Title>
                         </Link>
-                         <Button className='mb-4' onClick={() => this.removeFavorite(movie)}>Remove</Button> 
+                         <Button className='mb-4' variant="outline-secondary" size="sm" onClick={() => this.handleRemove(movie)}>Remove from Favorites</Button> 
                       </Card.Body>
                     </Card>
                   </div>
@@ -132,7 +132,7 @@ ProfileView.propTypes = {
     Username: PropTypes.string.isRequired,
     Email: PropTypes.string.isRequired,
     Birthday: PropTypes.string,
-    Favorites: PropTypes.arrayOf(string),
+    Favorites: PropTypes.array,
   }),
   movies: PropTypes.array.isRequired,
 };
