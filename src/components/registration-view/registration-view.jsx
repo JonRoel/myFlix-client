@@ -133,11 +133,11 @@ export function RegistrationView(props) {
             Birthday:
           </Form.Label>
           <Form.Control
-              type="date"
-              name="birthday"
-              value={birthday}
-              placeholder="YYYY-MM-DD"
-              onChange={(e) => setBirthday(e.target.value)}
+            type="date"
+            name="birthday"
+            value={birthday}
+            placeholder="YYYY-MM-DD"
+            onChange={(e) => setBirthday(e.target.value)}
             />
         </Form.Group>
         <Row>

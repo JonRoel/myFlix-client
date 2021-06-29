@@ -28,22 +28,22 @@ export function LoginView(props) {
 
   return (
     <div className="login-wrapper">
-    <img className="myFlix-logo" width={400} src={logo} alt="logo" />
-    <Form className="login-form">
-      <Form.Group controleid="formUsername">
-        <Form.Label>Username:</Form.Label>
-        <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
-      </Form.Group>
-      <Form.Group controlId="formPassword">
-        <Form.Label>Password:</Form.Label>
-        <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
-      </Form.Group>
-      <div className="d-grid gap-2">
-      <Button variant="primary" type="submit" size="lg" onClick={handleSubmit}>Sign In</Button>
-      <hr data-content="Or" className="hr-text" />
-      <Button href="/register" variant="secondary" size="lg">Register here</Button>
-      </div>
-    </Form>
+      <img className="myFlix-logo" width={400} src={logo} alt="logo" />
+      <Form className="login-form">
+        <Form.Group controleid="formUsername">
+          <Form.Label>Username:</Form.Label>
+          <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
+        </Form.Group>
+        <Form.Group controlId="formPassword">
+          <Form.Label>Password:</Form.Label>
+          <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
+        </Form.Group>
+        <div className="d-grid gap-2">
+        <Button variant="primary" type="submit" size="lg" onClick={handleSubmit}>Sign In</Button>
+        <hr data-content="Or" className="hr-text" />
+        <Button href="/register" variant="secondary" size="lg">Register here</Button>
+        </div>
+      </Form>
     </div>
   );
 }

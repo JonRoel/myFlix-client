@@ -18,8 +18,8 @@ export class DirectorView extends React.Component {
          <h1>{director.name}</h1>
          </Row>
          <Row className="text-white">
-         <p className="director-description">Born: {director.birthyear}</p>
-         <p>Biography: {director.bio} </p>
+          <p className="director-description">Born: {director.birthyear}</p>
+          <p>Biography: {director.bio} </p>
          </Row>
          <Row>
            <Button className="lg" variant="primary" onClick={() => {onBackClick(null);}}>Back to list</Button>
