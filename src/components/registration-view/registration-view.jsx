@@ -14,9 +14,9 @@ export function RegistrationView(props) {
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const [usernameErr, setUsernameErr] = useState({});
-  const [passwordErr, setPasswordErr] = useState({});
-  const [emailErr, setEmailErr] = useState({});
+  const [usernameError, setUsernameError] = useState({});
+  const [passwordError, setPasswordError] = useState({});
+  const [emailError, setEmailError] = useState({});
 
 
   const handleSubmit = (e) => {
@@ -41,27 +41,27 @@ export function RegistrationView(props) {
   }
 
   const formValidation = () => {
-    const usernameErr = {};
-    const passwordErr = {};
-    const emailErr = {};
+    const usernameError = {};
+    const passwordError = {};
+    const emailError = {};
     let isValid = true;
 
-    if (username.length < 4) {
-        usernameErr.UsernameToShort = "Username must be more than 4 characters.";
+    if (username.length < 4 || username === '') {
+        usernameError.UsernameToShort = "Username must be more than 4 characters.";
         isValid = false;
     }
-    if (password.length < 6) {
-        passwordErr.noPassword = "You must enter a password at least 6 characters long.";
+    if (password.length < 6 || password === '') {
+        passwordError.noPassword = "You must enter a password at least 6 characters long.";
         isValid = false;
     }
     if (!email || email.indexOf('@') === -1) {
-        emailErr.notValidEmail = "Your email doesn't look quite right.";
+        emailError.notValidEmail = "Your email doesn't look quite right.";
         isValid = false;
     }
 
-    setUsernameErr(usernameErr);
-    setPasswordErr(passwordErr);
-    setEmailErr(emailErr);
+    setUsernameError(usernameError);
+    setPasswordError(passwordError);
+    setEmailError(emailError);
     return isValid;
 };
 
@@ -83,10 +83,10 @@ export function RegistrationView(props) {
           />
         </Form.Group>
 
-        {Object.keys(usernameErr).map((key) => {
+        {Object.keys(usernameError).map((key) => {
           return (
             <div className="form-validation-error" key={key}>
-              {usernameErr[key]}
+              {usernameError[key]}
             </div>
           );
         })}
@@ -102,10 +102,10 @@ export function RegistrationView(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        {Object.keys(passwordErr).map((key) => {
+        {Object.keys(passwordError).map((key) => {
           return (
             <div className="form-validation-error" key={key}>
-              {passwordErr[key]}
+              {passwordError[key]}
             </div>
           );
         })}
@@ -121,10 +121,10 @@ export function RegistrationView(props) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        {Object.keys(emailErr).map((key) => {
+        {Object.keys(emailError).map((key) => {
           return (
             <div className="form-validation-error" key={key}>
-              {emailErr[key]}
+              {emailError[key]}
             </div>
           );
         })}

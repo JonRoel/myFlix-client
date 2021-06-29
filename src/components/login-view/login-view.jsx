@@ -22,7 +22,7 @@ export function LoginView(props) {
       props.onLoggedIn(data);
     })
     .catch(e => {
-      console.log('no such user exists')
+      alert('Wrong Email or Password')
     });
   };
 

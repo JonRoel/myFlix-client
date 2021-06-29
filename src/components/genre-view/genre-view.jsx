@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Row, Col, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -29,3 +30,10 @@ export class GenreView extends React.Component {
     );
   }
 }
+
+GenreView.propTypes = {
+  genre: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired
+  }).isRequired
+};
