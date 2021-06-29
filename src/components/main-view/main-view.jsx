@@ -225,10 +225,11 @@ class MainView extends React.Component {
             <Route path="/userupdate/:Username" render={({ history }) => {
               {/* if(!user) return <Redirect to="/" /> */}
               if (movies.length === 0) return <div className="main-view" />
-              if (!user) return <Col>
-                      <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-                    </Col>
-              
+              if (!user) return (
+                <Col>
+                  <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
+                </Col>
+              )
               return (
                 <>
                   <Row className="mb-3 navigation-main">
@@ -249,11 +250,11 @@ class MainView extends React.Component {
     }
   };
 
-  let mapStateToProps = state => {
-    return { 
-      movies: state.movies,
-      user: state.user, 
-    }
+let mapStateToProps = state => {
+  return { 
+    movies: state.movies,
+    user: state.user, 
   }
+}
 
-  export default connect(mapStateToProps, { setMovies, setUser } )(MainView);
+export default connect(mapStateToProps, { setMovies, setUser } )(MainView);
