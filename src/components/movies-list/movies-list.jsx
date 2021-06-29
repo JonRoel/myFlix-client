@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import VisibilityFilterInput from '../visibility-filter-input/visibility-filter-input';
 import { MovieCard } from '../movie-card/movie-card';
 
-import './movies-list.scss';
-
 const mapStateToProps = state => {
   const { visibilityFilter } = state;
   return { visibilityFilter };

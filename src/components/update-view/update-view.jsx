@@ -1,8 +1,8 @@
 import React from 'react';
+import {Row, Col, Button, Container, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import { Row, Col, Button, Container, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import './update-view.scss';
@@ -28,45 +28,45 @@ export class UpdateView extends React.Component {
 
   getUser(token) {
     let url = 'https://myflix-jonathon.herokuapp.com/users/' +
-      localStorage.getItem('user');
+        localStorage.getItem('user');
     axios.get(url, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => {
-        this.setState({
-          Username: response.data.Username,
-          Password: response.data.Password,
-          Email: response.data.Email,
-          Birthday: response.data.Birthday,
+            headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+            this.setState({
+                Username: response.data.Username,
+                Password: response.data.Password,
+                Email: response.data.Email,
+                Birthday: response.data.Birthday,
+            });
         });
-      });
   }
 
-/* Handle form submit for user info update */
+/* Handle form update */
   handleUpdate(e) {
     let token = localStorage.getItem("token");
     let user = localStorage.getItem("user");
     let validated = this.formValidation();
     if (validated) {
       axios.put( `https://myflix-jonathon.herokuapp.com/userupdate/${user}`,
-        { 
-          Password: this.state.Password,
-          Email: this.state.Email,
-          Birthday: this.state.Birthday
-        },
-        { headers: { Authorization: `Bearer ${token}` } } 
-      )
-        .then((response) => {
-          const data = response.data;
-          console.log(data);
-          alert(user + " has been updated.");
-          console.log(response);
-          window.open('{`/users/${this.props.user}`}', '_self');
-        })
-        .catch(function (error) {
-          alert(error.response.data);
-        });
-      }}
+          { 
+              Password: this.state.Password,
+              Email: this.state.Email,
+              Birthday: this.state.Birthday
+          },
+          { headers: { Authorization: `Bearer ${token}` } } 
+        )
+          .then((response) => {
+              const data = response.data;
+              console.log(data);
+              alert(user + " has been updated.");
+              console.log(response);
+              window.open('{`/users/${this.props.user}`}', '_self');
+          })
+          .catch(function (error) {
+              alert(error.response.data);
+          });
+        }}
 
 /* Form Validation Start */
     

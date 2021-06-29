@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
-import { Form, Row, Col, Button } from 'react-bootstrap';
 import logo from 'url:../../../public/myflix-logo.png';
-
 import './registration-view.scss';
 
 export function RegistrationView(props) {
@@ -16,6 +17,28 @@ export function RegistrationView(props) {
   const [usernameError, setUsernameError] = useState({});
   const [passwordError, setPasswordError] = useState({});
   const [emailError, setEmailError] = useState({});
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const isValid = formValidation();
+    if (isValid) {
+      axios.post('https://myflix-jonathon.herokuapp.com/users', {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday
+      })
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+        window.open('/', '_self');
+      })
+      .catch(e => {
+        console.log('error registering the user')
+      });
+    }
+  }
 
   const formValidation = () => {
     const usernameError = {};
@@ -42,31 +65,11 @@ export function RegistrationView(props) {
     return isValid;
 };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const isValid = formValidation();
-    if (isValid) {
-      axios.post('https://myflix-jonathon.herokuapp.com/users', {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: birthday
-      })
-      .then(response => {
-        const data = response.data;
-        console.log(data);
-        window.open('/', '_self');
-      })
-      .catch(e => {
-        console.log('error registering the user')
-      });
-    }
-  }
-
   return (
     <div className="register-wrapper">
       <img className="myFlix-logo" width={400} src={logo} alt="logo" />
-      <Form className="register-form" noValidate>
+      <Form className="register-form"
+        noValidate>
         <Form.Group>
           <Form.Label>
             Username:
@@ -87,7 +90,6 @@ export function RegistrationView(props) {
             </div>
           );
         })}
-
         <Form.Group>
           <Form.Label>
             Create Password:
@@ -100,7 +102,6 @@ export function RegistrationView(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        
         {Object.keys(passwordError).map((key) => {
           return (
             <div className="form-validation-error" key={key}>
@@ -108,7 +109,6 @@ export function RegistrationView(props) {
             </div>
           );
         })}
-        
         <Form.Group>
           <Form.Label>
             Email:
@@ -121,7 +121,6 @@ export function RegistrationView(props) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
-        
         {Object.keys(emailError).map((key) => {
           return (
             <div className="form-validation-error" key={key}>
@@ -129,7 +128,6 @@ export function RegistrationView(props) {
             </div>
           );
         })}
-        
         <Form.Group>
           <Form.Label>
             Birthday:
@@ -142,7 +140,6 @@ export function RegistrationView(props) {
               onChange={(e) => setBirthday(e.target.value)}
             />
         </Form.Group>
-        
         <Row>
           <Col className="reg-btns mt-1">
             <Button variant="link" href="/" >Back to login</Button>
