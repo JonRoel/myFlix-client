@@ -11,7 +11,19 @@
 .navbar-expand-lg .navbar-collapse {
   flex:inherit;
 }
+
 .dropdown-menu {
   right:0px !important;
   left:unset;
+}
+
+.dropdown-divider {
+  margin: 0 auto;
+  border-top: 1px solid #cacaca;
+  width: 90% !important;
+}
+
+.logout-button {
+  padding:5px 10px;
+  float:left;
 }
