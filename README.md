@@ -2,6 +2,9 @@
 <p>This repo is the frontend single page application.<p>
 <p>This single page application is built using React with Redux, while using React-Bootstrap as a framework. User Authentication is using JWT-based authentication and basic HTTP authentication. The database is built with MongoDB and Express and is hosted on Heroku.</p>
 
+<h3>Live site available on Netlify</h3>
+<a href="https://myflix-jonathonroeland.netlify.app/">https://myflix-jonathonroeland.netlify.app/</a>
+
 <h3>Tools Used</h3>
 React
 React-Bootstrap
